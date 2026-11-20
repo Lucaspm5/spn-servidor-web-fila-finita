@@ -1,0 +1,461 @@
+{
+  "modelName": "trabalho_07",
+  "places": [
+    {
+      "name": "PCheg",
+      "initialMarking": 1,
+      "stringMarking": "1",
+      "initialStringMarking": "1",
+      "id": "p1",
+      "x": 330.01171875,
+      "y": 499.35546875
+    },
+    {
+      "name": "PReq",
+      "initialMarking": 0,
+      "stringMarking": "0",
+      "initialStringMarking": "0",
+      "id": "p2",
+      "x": 600.01171875,
+      "y": 499.35546875
+    },
+    {
+      "name": "PFila",
+      "initialMarking": 0,
+      "stringMarking": "0",
+      "initialStringMarking": "0",
+      "id": "p3",
+      "x": 870.01171875,
+      "y": 501.35546875
+    },
+    {
+      "name": "PProc",
+      "initialMarking": 0,
+      "stringMarking": "0",
+      "initialStringMarking": "0",
+      "id": "p4",
+      "x": 1144.01171875,
+      "y": 499.35546875
+    },
+    {
+      "name": "PSrv",
+      "initialMarking": 4,
+      "stringMarking": "N",
+      "initialStringMarking": "N",
+      "id": "p5",
+      "x": 1181.01171875,
+      "y": 599.35546875
+    },
+    {
+      "name": "PCap",
+      "initialMarking": 20,
+      "stringMarking": "C",
+      "initialStringMarking": "C",
+      "id": "p6",
+      "x": 733.01171875,
+      "y": 300.35546875
+    }
+  ],
+  "definitions": [
+    {
+      "name": "C",
+      "type": "INTEGER",
+      "value": "20",
+      "id": "param1795113393242"
+    },
+    {
+      "name": "N",
+      "type": "INTEGER",
+      "value": "4",
+      "id": "param1795113408920"
+    },
+    {
+      "name": "AD",
+      "type": "DOUBLE",
+      "value": "25",
+      "id": "param1795114455810"
+    },
+    {
+      "name": "S",
+      "type": "DOUBLE",
+      "value": "100",
+      "id": "param1795114508353"
+    }
+  ],
+  "rewardMeasures": [
+    {
+      "name": "U",
+      "expression": "(E{#PProc}/N) * 100",
+      "id": "metric1795115416719",
+      "unit": "%"
+    },
+    {
+      "name": "TP",
+      "expression": "(E{#PProc}/S) * 1000",
+      "id": "metric1795115557466",
+      "unit": "req/s"
+    },
+    {
+      "name": "DP",
+      "expression": "(P{#PCap = 0}) * 100",
+      "id": "metric1795115623713",
+      "unit": "%"
+    },
+    {
+      "name": "MQT",
+      "expression": "E{#PFila} / (E{#PProc} / S)",
+      "id": "metric1795115856405",
+      "unit": "ms"
+    },
+    {
+      "name": "MRT",
+      "expression": "(E{#PFila} + E{#PProc}) / (E{#PProc} / S)",
+      "id": "metric1795115880497",
+      "unit": "ms"
+    }
+  ],
+  "transitions": [
+    {
+      "name": "Tchg",
+      "type": "TIMED",
+      "firingPolicy": "SINGLE_SERVER",
+      "raceType": "RACE_WITH_ENABLING_MEMORY",
+      "priority": 1,
+      "inputArcs": [
+        {
+          "type": "INPUT",
+          "place": "PCheg",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "outputArcs": [
+        {
+          "type": "OUTPUT",
+          "place": "PCheg",
+          "multiplicity": 1,
+          "weight": 1
+        },
+        {
+          "type": "OUTPUT",
+          "place": "PReq",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "inhibitorArcs": [],
+      "distribution": {
+        "type": "exponential",
+        "parameters": {
+          "Mean delay": "AD"
+        }
+      },
+      "id": "t1",
+      "x": 462.01171875,
+      "y": 497.35546875
+    },
+    {
+      "name": "Tserv",
+      "type": "TIMED",
+      "firingPolicy": "INFINITY_SERVER",
+      "raceType": "RACE_WITH_ENABLING_MEMORY",
+      "priority": 1,
+      "inputArcs": [
+        {
+          "type": "INPUT",
+          "place": "PProc",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "outputArcs": [
+        {
+          "type": "OUTPUT",
+          "place": "PSrv",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "inhibitorArcs": [],
+      "distribution": {
+        "type": "exponential",
+        "parameters": {
+          "Mean delay": "S"
+        }
+      },
+      "id": "t2",
+      "x": 1276.01171875,
+      "y": 501.35546875,
+      "labelX": 1276.01171875,
+      "labelY": 541.35546875
+    },
+    {
+      "name": "Tadm",
+      "type": "IMMEDIATE",
+      "firingPolicy": "SINGLE_SERVER",
+      "raceType": "RACE_WITH_ENABLING_MEMORY",
+      "priority": 1,
+      "inputArcs": [
+        {
+          "type": "INPUT",
+          "place": "PReq",
+          "multiplicity": 1,
+          "weight": 1
+        },
+        {
+          "type": "INPUT",
+          "place": "PCap",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "outputArcs": [
+        {
+          "type": "OUTPUT",
+          "place": "PFila",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "inhibitorArcs": [],
+      "weight": 1,
+      "id": "t3",
+      "x": 738.01171875,
+      "y": 497.35546875
+    },
+    {
+      "name": "Tini",
+      "type": "IMMEDIATE",
+      "firingPolicy": "SINGLE_SERVER",
+      "raceType": "RACE_WITH_ENABLING_MEMORY",
+      "priority": 1,
+      "inputArcs": [
+        {
+          "type": "INPUT",
+          "place": "PFila",
+          "multiplicity": 1,
+          "weight": 1
+        },
+        {
+          "type": "INPUT",
+          "place": "PSrv",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "outputArcs": [
+        {
+          "type": "OUTPUT",
+          "place": "PProc",
+          "multiplicity": 1,
+          "weight": 1
+        },
+        {
+          "type": "OUTPUT",
+          "place": "PCap",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "inhibitorArcs": [],
+      "weight": 1,
+      "id": "t4",
+      "x": 1012.01171875,
+      "y": 501.35546875,
+      "labelX": 1012.01171875,
+      "labelY": 541.35546875
+    },
+    {
+      "name": "Tdesc",
+      "type": "IMMEDIATE",
+      "firingPolicy": "SINGLE_SERVER",
+      "raceType": "RACE_WITH_ENABLING_MEMORY",
+      "priority": 1,
+      "inputArcs": [
+        {
+          "type": "INPUT",
+          "place": "PReq",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "outputArcs": [],
+      "inhibitorArcs": [
+        {
+          "type": "INHIBITOR",
+          "place": "PCap",
+          "multiplicity": 1,
+          "weight": 1
+        }
+      ],
+      "weight": 1,
+      "id": "t5",
+      "x": 600.01171875,
+      "y": 300.35546875,
+      "labelX": 600.01171875,
+      "labelY": 340.35546875
+    }
+  ],
+  "visualElements": [],
+  "arcs": [
+    {
+      "id": "a1",
+      "source": "p1",
+      "target": "t1",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 168.111341960372,
+      "lineType": "straight"
+    },
+    {
+      "id": "a2",
+      "source": "t1",
+      "target": "p1",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "left",
+      "targetAnchorAngle": 35.537677791974374,
+      "lineType": "curve",
+      "waypoints": [
+        {
+          "x": 405.01171875,
+          "y": 566.35546875
+        }
+      ]
+    },
+    {
+      "id": "a3",
+      "source": "t1",
+      "target": "p2",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 180,
+      "lineType": "straight"
+    },
+    {
+      "id": "a4",
+      "source": "p2",
+      "target": "t3",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 158.19859051364824,
+      "lineType": "straight"
+    },
+    {
+      "id": "a5",
+      "source": "t3",
+      "target": "p3",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 189.86580694308435,
+      "lineType": "straight"
+    },
+    {
+      "id": "a6",
+      "source": "p3",
+      "target": "t4",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 180,
+      "lineType": "straight"
+    },
+    {
+      "id": "a7",
+      "source": "t4",
+      "target": "p4",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 180,
+      "lineType": "straight"
+    },
+    {
+      "id": "a8",
+      "source": "p4",
+      "target": "t2",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 206.56505117707798,
+      "lineType": "straight"
+    },
+    {
+      "id": "a9",
+      "source": "t2",
+      "target": "p5",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "right",
+      "targetAnchorAngle": 311.98721249581666,
+      "lineType": "straight"
+    },
+    {
+      "id": "a10",
+      "source": "p5",
+      "target": "t4",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchorAngle": 223.45184230102203,
+      "targetAnchorAngle": 45,
+      "lineType": "curve",
+      "waypoints": [
+        {
+          "x": 1135.01171875,
+          "y": 549.35546875
+        }
+      ]
+    },
+    {
+      "id": "a11",
+      "source": "t4",
+      "target": "p6",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "top",
+      "targetAnchorAngle": 10.885527054658724,
+      "lineType": "curve",
+      "waypoints": [
+        {
+          "x": 914.71171875,
+          "y": 344.25546875
+        }
+      ]
+    },
+    {
+      "id": "a12",
+      "source": "p6",
+      "target": "t3",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "bottom",
+      "targetAnchorAngle": 257.4711922908485,
+      "lineType": "straight"
+    },
+    {
+      "id": "a13",
+      "source": "p6",
+      "target": "t5",
+      "type": "inhibitor",
+      "weight": "1",
+      "sourceAnchor": "left",
+      "targetAnchorAngle": 0,
+      "lineType": "straight"
+    },
+    {
+      "id": "a14",
+      "source": "p2",
+      "target": "t5",
+      "type": "normal",
+      "weight": "1",
+      "sourceAnchor": "top",
+      "targetAnchorAngle": 90,
+      "lineType": "straight"
+    }
+  ],
+  "chartSquare": false
+}

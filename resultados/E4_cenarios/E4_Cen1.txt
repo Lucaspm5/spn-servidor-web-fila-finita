@@ -1,0 +1,45 @@
+========================================
+  STOCHASTIC ANALYSIS REPORT
+========================================
+
+Execution type:  Stationary Simulation
+Execution time:  0.340s
+Repetitions:  56
+Processed events:  1750653
+
+--- MODEL DATA ---
+Places:  6
+Transitions:  5
+Parameters:  4
+Metrics:  5
+
+--- METRICS ---
+DP = 4.076985
+  Min: 2.4809  Max: 5.8445
+  Std.Dev: 0.7755  Samples: 56
+  95% CI: [3.8739, 4.2801]
+  Half-Width: 0.2031
+MQT = 231.319742
+  Min: 191.3177  Max: 270.9779
+  Std.Dev: 17.5889  Samples: 56
+  95% CI: [226.7130, 235.9265]
+  Half-Width: 4.6067
+MRT = 331.319742
+  Min: 291.3177  Max: 370.9779
+  Std.Dev: 17.5889  Samples: 56
+  95% CI: [326.7130, 335.9265]
+  Half-Width: 4.6067
+TP = 38.147320
+  Min: 37.0958  Max: 38.8229
+  Std.Dev: 0.3762  Samples: 56
+  95% CI: [38.0488, 38.2459]
+  Half-Width: 0.0985
+U = 95.368301
+  Min: 92.7395  Max: 97.0573
+  Std.Dev: 0.9406  Samples: 56
+  95% CI: [95.1219, 95.6147]
+  Half-Width: 0.2464
+
+========================================
+  END OF REPORT
+========================================
